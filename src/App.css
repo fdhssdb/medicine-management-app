@@ -1,0 +1,14 @@
+.ant-layout .ant-layout-sider{
+    background-color: white;
+}
+
+.demo-logo-vertical img{
+    width: 50%;
+    display: block;
+    margin: 20px auto;
+}
+
+.app-title{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
