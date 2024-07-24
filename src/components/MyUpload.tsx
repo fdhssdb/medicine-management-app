@@ -28,6 +28,7 @@ const MyUpload: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string>();
 
   const handleChange: UploadProps["onChange"] = (info) => {
+    console.log(info.file);
     if (info.file.status === "uploading") {
       setLoading(true);
       return;
@@ -50,13 +51,11 @@ const MyUpload: React.FC = () => {
 
   return (
     <Upload
-      //name表示服务器端接口接收的数据的属性名
-      name="avatar"
+      name="file"
       listType="picture-card"
       className="avatar-uploader"
       showUploadList={false}
-      //action表示服务器端的文件上传接口地址
-      action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+      action="/api/upload/album"
       beforeUpload={beforeUpload}
       onChange={handleChange}
     >

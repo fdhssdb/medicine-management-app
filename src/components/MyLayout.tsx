@@ -41,7 +41,7 @@ const sideMenuData = [
       {
         key: "/admin/medicine/list",
         icon: <VideoCameraOutlined />,
-        label: "药品信息"
+        label: "药品信息",
       },
     ],
   },
@@ -200,6 +200,7 @@ const MyLayout = ({ children }: any) => {
             margin: "24px 16px",
             padding: 24,
             minHeight: 280,
+            overflow: "auto",
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}

@@ -1,4 +1,4 @@
-import { post } from "../utils/request";
+import { get,post } from "../utils/request";
 
 type LoginData = {
   userName: string;
@@ -7,6 +7,6 @@ type LoginData = {
 /**
  * 管理后台登录接口
  * @param data
- * @returns 
+ * @returns
  */
-export const loginAPI = (data: LoginData) => post("/auth/admin_login", data);
+export const loginAPI = (data: LoginData) => post("/user/login", data);

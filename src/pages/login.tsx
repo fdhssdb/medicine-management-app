@@ -1,22 +1,25 @@
-import React from "react";
-import { Card, Button, Form, Input, Row, Col, message } from "antd";
+import React, { useState } from "react";
+import { Card, Button, Form, Input, Row, Col, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 import { defaultImg, setToken } from "../utils/tools";
 import { loginAPI } from "../service/auth";
+
 type FieldType = {
   username?: string;
   password?: string;
+  code?: string;
   remember?: string;
 };
 
 type Login = React.FC;
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-
 function Login() {
+  const [captcha, setCaptcha] = useState("/api/user/code");
   const navigate = useNavigate();
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
 
   return (
     <Row>
@@ -38,9 +41,8 @@ function Login() {
             initialValues={{ remember: true }}
             onFinish={async (values: any) => {
               const res: any = await loginAPI(values);
-              const { msg, data } = res;
+              const { data } = res;
               console.log(res);
-              message.success(msg);
               setToken(data);
               navigate("/admin/dashboard");
             }}
@@ -66,6 +68,32 @@ function Login() {
             >
               <Input.Password placeholder="请输入密码" />
             </Form.Item>
+
+            <Form.Item<FieldType>
+              label="验证码"
+              name="code"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your identifying code!",
+                },
+              ]}
+            >
+              <Space align="start">
+                <Input placeholder="请输入验证码" />
+                <img
+                  src={captcha}
+                  alt="验证码"
+                  style={{
+                    borderRadius: "5px",
+                  }}
+                  onClick={() => {
+                    setCaptcha("/api/user/code" + "?" + Math.random());
+                  }}
+                />
+              </Space>
+            </Form.Item>
+
             <Form.Item wrapperCol={{ span: 24 }}>
               <Button
                 type="primary"

@@ -5,8 +5,7 @@ export const defaultImg = logo;
 /**
  * 服务器地址
  */
-export const serverUrl =
-  "http://127.0.0.1:4523/m1/4036356-0-default";
+export const serverUrl = "http://localhost:3000";
 
 /**
  *
