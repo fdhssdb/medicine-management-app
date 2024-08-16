@@ -1,4 +1,4 @@
-import { get,post } from "../utils/request";
+import { post } from "../utils/request";
 
 type LoginData = {
   userName: string;

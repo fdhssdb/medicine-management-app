@@ -1,9 +1,5 @@
-import React from 'react'
-
 function ArticleCategories() {
-  return (
-    <div>article</div>
-  )
+  return <div>article</div>;
 }
 
-export default ArticleCategories
+export default ArticleCategories;

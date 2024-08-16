@@ -1,4 +1,3 @@
-import React from "react";
 import { downloadAPI } from "../service/download";
 import { Button } from "antd";
 
