@@ -1,10 +1,10 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   DashboardOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
-  UserOutlined,
+  LineChartOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import {
@@ -19,6 +19,7 @@ import {
 import type { MenuProps } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import { defaultImg as logo } from "../utils/tools";
+import { calc } from "antd/es/theme/internal";
 
 const { Header, Sider, Content } = Layout;
 
@@ -64,8 +65,13 @@ const sideMenuData = [
   },
   {
     key: "/admin/users",
-    icon: <UserOutlined />,
+    icon: <LineChartOutlined />,
     label: "会员信息",
+  },
+  {
+    key: "/admin/echarts",
+    icon: <DashboardOutlined />,
+    label: "Echarts",
   },
 ];
 
@@ -195,23 +201,27 @@ const MyLayout = ({ children }: any) => {
             />
           </Dropdown>
         </Header>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-            overflow: "auto",
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
+        <Content style={{ margin: "12px 18px" }}>
           <Breadcrumb
             items={breadcrumbs.map((item: any) => {
               return { title: item.label };
             })}
           />
-
-          {children}
+          <div
+            style={{
+              position: "relative",
+              marginTop: 12,
+              padding: 12,
+              height: "calc(100% - 40px)",
+              minHeight: 360,
+              overflow: "auto",
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+              boxSizing: "border-box",
+            }}
+          >
+            {children}
+          </div>
         </Content>
       </Layout>
     </Layout>

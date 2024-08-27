@@ -7,6 +7,7 @@ import MedicineCategories from "./pages/medicine/categories";
 import MedicineList from "./pages/medicine/list";
 import ArticleCategories from "./pages/articles/categories";
 import ArticleList from "./pages/articles/list";
+import MyEcharts from "./pages/echarts";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="articles/categories" element={<ArticleCategories />} />
         <Route path="articles/list" element={<ArticleList />} />
         <Route path="users" element={<Users />} />
+        <Route path="echarts" element={<MyEcharts />} />
       </Routes>
     </MyLayout>
   );
