@@ -19,7 +19,6 @@ import {
 import type { MenuProps } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import { defaultImg as logo } from "../utils/tools";
-import { calc } from "antd/es/theme/internal";
 
 const { Header, Sider, Content } = Layout;
 

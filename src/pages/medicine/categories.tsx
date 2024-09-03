@@ -18,7 +18,6 @@ import {
   SearchOutlined,
   EditOutlined,
   DeleteOutlined,
-  LoadingOutlined,
 } from "@ant-design/icons";
 import {
   getListAPI,
@@ -44,7 +43,6 @@ function MedicineCategories() {
   const [medicineList, setMedicineList] = useState<DataType[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [imageUrl, setImageUrl] = useState<string>();
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [myForm] = Form.useForm();
 
@@ -115,7 +113,7 @@ function MedicineCategories() {
   ];
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
@@ -132,26 +130,17 @@ function MedicineCategories() {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       message.error("You can only upload JPG/PNG file!");
+      return false;
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       message.error("Image must smaller than 2MB!");
+      return false;
     }
-    return false;
-  };
-
-  const getBase64 = (img: FileType, callback: (url: string) => void) => {
     const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result as string));
-    reader.readAsDataURL(img);
-  };
-
-  const handleChange: UploadProps["onChange"] = (info) => {
-    console.log(info);
-    getBase64(info.file as FileType, (url) => {
-      setLoading(false);
-      setImageUrl(url);
-    });
+    reader.addEventListener("load", () => setImageUrl(reader.result as string));
+    reader.readAsDataURL(file);
+    return false;
   };
 
   //刷新列表
@@ -181,7 +170,6 @@ function MedicineCategories() {
         }}
         onOk={() => {
           myForm.submit();
-          setOpen(false);
         }}
         maskClosable={false}
         destroyOnClose
@@ -195,7 +183,7 @@ function MedicineCategories() {
           onFinish={async (value: any) => {
             console.log(value);
             let formData = new FormData();
-            let { name, pic, desc } = value;
+            let { name, pic, desc = "" } = value;
             formData.append("name", name);
             formData.append("pic", pic);
             formData.append("desc", desc);
@@ -204,6 +192,7 @@ function MedicineCategories() {
             } else {
               await createAPI(formData).then((res) => console.log(res));
             }
+            setOpen(false);
             refresh();
           }}
           preserve={false}
@@ -223,14 +212,11 @@ function MedicineCategories() {
             getValueFromEvent={normFile}
           >
             <Upload
-              name="pic"
               listType="picture-card"
               className="avatar-uploader"
               maxCount={1}
               showUploadList={false}
               beforeUpload={beforeUpload}
-              onChange={handleChange}
-              action="/api/medicine"
             >
               {imageUrl ? (
                 <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />

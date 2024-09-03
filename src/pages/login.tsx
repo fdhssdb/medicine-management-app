@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, Button, Form, Input, Row, Col, Space } from "antd";
 import { useNavigate } from "react-router-dom";
+import crypto from "crypto-js";
 import { defaultImg, setToken } from "../utils/tools";
 import { loginAPI } from "../service/auth";
 
@@ -21,6 +22,15 @@ function Login() {
     console.log("Failed:", errorInfo);
   };
 
+  const onFinish = async (values: any) => {
+    values.password = crypto.MD5(values.password).toString();
+    const res: any = await loginAPI(values);
+    const { data } = res;
+    console.log(res);
+    setToken(data);
+    navigate("/admin/dashboard");
+  };
+
   return (
     <Row>
       <Col md={{ span: 8, push: 8 }} xs={{ span: 22, push: 1 }}>
@@ -39,22 +49,14 @@ function Login() {
             name="basic"
             labelCol={{ md: { span: 4 } }}
             initialValues={{ remember: true }}
-            onFinish={async (values: any) => {
-              const res: any = await loginAPI(values);
-              const { data } = res;
-              console.log(res);
-              setToken(data);
-              navigate("/admin/dashboard");
-            }}
+            onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
             <Form.Item<FieldType>
               label="用户名"
               name="username"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
+              rules={[{ required: true, message: "请输入用户名！" }]}
             >
               <Input placeholder="请输入用户名" />
             </Form.Item>
@@ -63,10 +65,14 @@ function Login() {
               label="密 码"
               name="password"
               rules={[
-                { required: true, message: "Please input your password!" },
+                {
+                  required: true,
+                  pattern: /\w{6,12}/,
+                  message: "密码不合法！",
+                },
               ]}
             >
-              <Input.Password placeholder="请输入密码" />
+              <Input.Password placeholder="密码6-12位,只能包含字母、数字或下划线" />
             </Form.Item>
 
             <Form.Item<FieldType>
@@ -75,7 +81,7 @@ function Login() {
               rules={[
                 {
                   required: true,
-                  message: "Please input your identifying code!",
+                  message: "请输入验证码！",
                 },
               ]}
             >
