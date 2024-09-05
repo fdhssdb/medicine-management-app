@@ -40,7 +40,6 @@ instance.interceptors.response.use(
     }
     const { data, code, msg } = response.data;
     if (code === 200) {
-      console.log(data);
       message.success(msg);
       return Promise.resolve(data);
     } else {
@@ -68,7 +67,7 @@ instance.interceptors.response.use(
 //params给默认值
 export const get = (
   url: string,
-  params: any,
+  params?: any,
   responseType: ResponseType | undefined = "json"
 ) => instance.get(url, { params: params, responseType: responseType });
 

@@ -1,29 +1,32 @@
 import { get, post, patch, del } from "../utils/request";
 
+const url = "/medicine";
 /**
  * 查询药品
  * @param params
  * @returns
  */
-export const getListAPI = (params: any) => get("/medicine", params);
+export const getListAPI = (params: any) => get(url, params);
 
+
+export const getOptionsAPI = () => get(`${url}/getOptions`);
 /**
  *
  * @param params 新增药品
  * @returns
  */
-export const createAPI = (params: any) => post("/medicine", params);
+export const createAPI = (params: any) => post(url, params);
 
 /**
  * 修改药品信息
- * @param params 
- * @returns 
+ * @param params
+ * @returns
  */
-export const updateAPI = (id: any,params: any) => patch("/medicine",id, params);
+export const updateAPI = (id: any, params: any) => patch(url, id, params);
 
 /**
  * 删除药品
- * @param params 
- * @returns 
+ * @param params
+ * @returns
  */
-export const delAPI = (params: any) => del("/medicine", params);
+export const delAPI = (params: any) => del(url, params);

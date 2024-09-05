@@ -19,7 +19,7 @@ const uploadButton = (
 );
 
 const MyUpload: React.FC<MyUploadProps> = ({ value, onChange }: any) => {
-  const [imageUrl, setImageUrl] = useState();
+  const [imageUrl, setImageUrl] = useState<string>();
 
   const beforeUpload = (file: FileType) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -33,7 +33,11 @@ const MyUpload: React.FC<MyUploadProps> = ({ value, onChange }: any) => {
       return false;
     }
     const reader = new FileReader();
-    reader.addEventListener("load", () => onChange(reader.result as string));
+    reader.addEventListener("load", () => {
+      onChange
+        ? onChange(reader.result as string)
+        : setImageUrl(reader.result as string);
+    });
     reader.readAsDataURL(file);
     return false;
   };
@@ -47,7 +51,7 @@ const MyUpload: React.FC<MyUploadProps> = ({ value, onChange }: any) => {
       beforeUpload={beforeUpload}
     >
       {value ? (
-        <img src={ value || imageUrl} alt="avatar" style={{ width: "100%" }} />
+        <img src={value || imageUrl} alt="avatar" style={{ width: "100%" }} />
       ) : (
         uploadButton
       )}

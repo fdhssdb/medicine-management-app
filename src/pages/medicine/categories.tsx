@@ -105,7 +105,7 @@ function MedicineCategories() {
               refresh();
             }}
           >
-            <Button type="primary" icon={<DeleteOutlined />} />
+            <Button type="primary" icon={<DeleteOutlined />} danger/>
           </Popconfirm>
         </Space>
       ),
@@ -130,16 +130,19 @@ function MedicineCategories() {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       message.error("You can only upload JPG/PNG file!");
-      return false;
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       message.error("Image must smaller than 2MB!");
-      return false;
     }
-    const reader = new FileReader();
-    reader.addEventListener("load", () => setImageUrl(reader.result as string));
-    reader.readAsDataURL(file);
+    if (isJpgOrPng && isLt2M) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () =>
+        setImageUrl(reader.result as string)
+      );
+      reader.readAsDataURL(file);
+    }
+
     return false;
   };
 
