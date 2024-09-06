@@ -29,4 +29,4 @@ export const updateAPI = (id: any, params: any) => patch(url, id, params);
  * @param params
  * @returns
  */
-export const delAPI = (params: any) => del(url, params);
+export const delAPI = (id: any) => del(url, id);

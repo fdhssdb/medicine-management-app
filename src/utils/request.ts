@@ -78,5 +78,5 @@ export const put = (url: string, params: any) => instance.put(url, params);
 export const patch = (url: string, id: any, params: any) =>
   instance.patch(url + "/" + id, params);
 
-export const del = (url: string, params: any) =>
-  instance.delete(url + "/" + params.id);
+export const del = (url: string, id: any) =>
+  instance.delete(url + "/" + id);

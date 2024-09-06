@@ -121,16 +121,19 @@ function MedicineList() {
             type="primary"
             icon={<EditOutlined />}
             onClick={() => {
-              console.log(record);
               setOpen(true);
-              myForm.setFieldsValue(record);
+              const data = {
+                ...record,
+                medicine: record.medicine.id,
+              };
+              myForm.setFieldsValue(data);
               record.pic && setImageUrl(serverUrl + "/static/" + record.pic);
             }}
           />
           <Popconfirm
             title="确认删除吗？"
             onConfirm={async () => {
-              console.log(record.id);
+              console.log(typeof record.id);
               await delAPI(record.id).then((res) => console.log(res));
               refresh();
             }}
@@ -169,23 +172,19 @@ function MedicineList() {
     });
     console.log(formData);
     if (id) {
-      await updateAPI(id, formData).then((res) => console.log(res));
+      await updateAPI(id, formData).then((res) => refresh());
     } else {
-      await createAPI(formData).then((res) => console.log(res));
+      await createAPI(formData).then((res) => refresh());
     }
     setOpen(false);
   };
 
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
-
   const handleOk = () => {
     myForm.submit();
+    refresh();
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setOpen(false);
   };
 
@@ -283,7 +282,6 @@ function MedicineList() {
           <Form.Item label="分类" name="medicine">
             <Select
               style={{ width: 120 }}
-              onChange={handleChange}
               options={options}
             />
           </Form.Item>

@@ -101,7 +101,7 @@ function MedicineCategories() {
           <Popconfirm
             title="确认删除吗？"
             onConfirm={async () => {
-              await delAPI({ id: record.id });
+              await delAPI(record.id);
               refresh();
             }}
           >
